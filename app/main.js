@@ -196,6 +196,13 @@ app.commandLine.appendSwitch("force_high_performance_gpu");
 app.commandLine.appendSwitch("disable-renderer-backgrounding");
 app.commandLine.appendSwitch("disable-background-timer-throttling");
 app.commandLine.appendSwitch("disable-backgrounding-occluded-windows");
+// Windows: Chromium polls whether another window covers this one (native window
+// occlusion) and can pause or stutter rendering when it guesses wrong, e.g. with an
+// overlay, a second monitor or a partly covered window. The game never wants to pause.
+// Also use the GPU for page painting (HUD, menus) even on GPUs Chromium has blocklisted.
+app.commandLine.appendSwitch("disable-features", "CalculateNativeWinOcclusion");
+app.commandLine.appendSwitch("enable-gpu-rasterization");
+app.commandLine.appendSwitch("ignore-gpu-blocklist");
 // Compiled GPU shaders are kept on disk between launches; Chromium's default
 // (~6 MB) is too small for all maps, so shaders were evicted and recompiled,
 // freezing the first round of a map for 0.3-0.4 s.
